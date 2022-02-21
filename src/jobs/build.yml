@@ -1,0 +1,61 @@
+description: |
+  Build FE
+
+executor:
+  name: node
+  tag: << parameters.version >>  
+
+parameters:
+  app-dir:
+    default: ''
+    description: >-
+      Path to the directory containing your package.json file. Not needed if
+      package.json lives in the root.
+    type: string
+
+  pkg-manager:
+    default: npm
+    description: Select the default node package manager to use.
+    enum:
+      - npm
+      - yarn
+    type: enum
+  command:
+    default: build
+    description: The name of the script within your package.json which will run your tests.
+    type: string
+  
+steps: 
+ - when:
+      condition:
+        equal:
+          - yarn
+          - << parameters.pkg-manager >>
+      steps:
+        - attach_workspace:
+            at: .
+        - run:
+           command: yarn run << parameters.command >>
+           name: Run YARN build
+           working_directory: << parameters.app-dir >>
+        - persist_to_workspace:
+           root: .
+           paths:
+            - .   
+
+ - when:
+      condition:
+        equal:
+          - npm
+          - << parameters.pkg-manager >>
+      steps:
+        - attach_workspace:
+           at: .
+        - run:
+           command: npm run << parameters.command >>
+           name: Run NPM build
+           working_directory: << parameters.app-dir >>     
+        - persist_to_workspace:
+           root: .
+           paths:
+            - .            
