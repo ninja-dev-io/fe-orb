@@ -4,7 +4,6 @@ description: |
 executor:
   name: node
   tag: <<parameters.version>>  
-
 parameters:
   version:
     default: "lts"
@@ -29,7 +28,6 @@ parameters:
     default: build
     description: The name of the script within your package.json which will run your tests.
     type: string
-    
 steps: 
  - when:
       condition:
@@ -47,7 +45,6 @@ steps:
            root: .
            paths:
             - .   
-
  - when:
       condition:
         equal:
