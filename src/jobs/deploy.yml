@@ -1,9 +1,6 @@
 description: |
   Deploy FE
 
-orbs:
-  aws-cli: circleci/aws-cli@volatile
-
 executor: aws-cli/default
 
 parameters:

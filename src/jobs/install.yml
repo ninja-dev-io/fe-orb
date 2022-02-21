@@ -1,9 +1,6 @@
 description: |
   Instal Node.js packages.
 
-orbs:
-  node: circleci/node@volatile
-
 executor:
   name: node
   tag: << parameters.version >>  
