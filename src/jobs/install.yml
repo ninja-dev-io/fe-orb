@@ -3,7 +3,7 @@ description: |
 
 executor:
   name: node
-  tag: << parameters.version >>  
+  tag: <<parameters.version>>  
 
 parameters:
   version:
@@ -33,7 +33,7 @@ parameters:
     type: string
   cache-version:
     default: v1
-    description: >-
+    description: |
       Change the default cache version if you need to clear the cache for any
       reason.
     type: string  
