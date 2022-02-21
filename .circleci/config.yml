@@ -33,7 +33,6 @@ workflows:
           requires:
             - orb-tools/lint
             - orb-tools/pack
-     
   publish-prod:
     jobs:
       # Publish a semver version of the orb. relies on
