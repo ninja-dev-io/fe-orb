@@ -13,7 +13,7 @@ parameters:
     type: string
   app-dir:
     default: ''
-    description: >-
+    description: |
       Path to the directory containing your package.json file. Not needed if
       package.json lives in the root.
     type: string
@@ -29,7 +29,6 @@ parameters:
     default: build
     description: The name of the script within your package.json which will run your tests.
     type: string
-  
 steps: 
  - when:
       condition:
@@ -40,9 +39,9 @@ steps:
         - attach_workspace:
             at: .
         - run:
-           command: yarn run << parameters.command >>
+           command: yarn run <<parameters.command>>
            name: Run YARN build
-           working_directory: << parameters.app-dir >>
+           working_directory: <<parameters.app-dir>>
         - persist_to_workspace:
            root: .
            paths:
