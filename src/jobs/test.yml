@@ -3,7 +3,7 @@ description: |
 
 executor:
   name: node
-  tag: << parameters.version >>  
+  tag: <<parameters.version>>
 
 parameters:
   version:
@@ -28,30 +28,30 @@ parameters:
     default: test
     description: The name of the script within your package.json which will run your tests.
     type: string
-  
-steps: 
- - when:
+
+steps:
+  - when:
       condition:
         equal:
           - yarn
-          - << parameters.pkg-manager >>
+          - <<parameters.pkg-manager>>
       steps:
         - attach_workspace:
             at: .
         - run:
-           command: yarn run << parameters.command >>
+           command: yarn run <<parameters.command>>
            name: Run YARN Tests
-           working_directory: << parameters.app-dir >>
+           working_directory: <<parameters.app-dir>>
 
- - when:
+  - when:
       condition:
         equal:
           - npm
-          - << parameters.pkg-manager >>
+          - <<parameters.pkg-manager>>
       steps:
         - attach_workspace:
-           at: .
+            at: .
         - run:
-           command: npm run << parameters.command >>
-           name: Run NPM Tests
-           working_directory: << parameters.app-dir >>           
+            command: npm run <<parameters.command>>
+            name: Run NPM Tests
+            working_directory: <<parameters.app-dir>>

@@ -12,8 +12,8 @@ parameters:
   bucket:
     description: >-
       S3 bucket path
-    default: ''  
-    type: string  
+    default: ''
+    type: string
 steps:
   - attach_workspace:
       at: .
@@ -22,6 +22,3 @@ steps:
       command: |
         aws s3 sync <<parameters.build-dir>> <<parameters.bucket>>
       name: S3 Sync
-  
-  
-          

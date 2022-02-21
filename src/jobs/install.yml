@@ -3,13 +3,14 @@ description: |
 
 executor:
   name: node
-  tag: <<parameters.version>>  
+  tag: <<parameters.version>>
 
 parameters:
   version:
     default: lts
     description: |
-      Pick a specific cimg/node image version tag: https://hub.docker.com/r/cimg/node
+      Pick a specific cimg/node image version tag:
+      https://hub.docker.com/r/cimg/node
     type: string
   pkg-manager:
     default: npm
@@ -24,7 +25,7 @@ parameters:
       Pick a version of Yarn to install (if no version is specified, the latest
       stable version will be installed):
       https://github.com/yarnpkg/yarn/releases
-    type: string  
+    type: string
   app-dir:
     default: ''
     description: >-
@@ -36,38 +37,38 @@ parameters:
     description: |
       Change the default cache version if you need to clear the cache for any
       reason.
-    type: string  
- 
+    type: string
+
 steps:
   - when:
       condition:
         equal:
           - yarn
-          - << parameters.pkg-manager >>
+          - <<parameters.pkg-manager>>
       steps:
         - checkout
         - node/install-yarn:
-            version: << parameters.yarn-version >>
+            version: <<parameters.yarn-version>>
         - node/install-packages:
-            pkg-manager: << parameters.pkg-manager >>
-            app-dir: << parameters.app-dir >>
-            cache-version: << parameters.cache-version >>
+            pkg-manager: <<parameters.pkg-manager>>
+            app-dir: <<parameters.app-dir>>
+            cache-version: <<parameters.cache-version>>
         - persist_to_workspace:
-           root: .
-           paths:
-             - .    
+            root: .
+            paths:
+              - .
   - when:
       condition:
         equal:
           - npm
-          - << parameters.pkg-manager >>
+          - <<parameters.pkg-manager>>
       steps:
         - checkout
         - node/install-packages:
-            pkg-manager: << parameters.pkg-manager >>
-            app-dir: << parameters.app-dir >>
-            cache-version: << parameters.cache-version >>
+            pkg-manager: <<parameters.pkg-manager>>
+            app-dir: <<parameters.app-dir>>
+            cache-version: <<parameters.cache-version>>
         - persist_to_workspace:
-           root: .
-           paths:
-             - .      
+            root: .
+            paths:
+              - .

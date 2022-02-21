@@ -3,16 +3,17 @@ description: |
 
 executor:
   name: node
-  tag: <<parameters.version>>  
+  tag: <<parameters.version>>
 
 parameters:
   version:
     default: "lts"
     description: |
-      Pick a specific cimg/node image version tag: https://hub.docker.com/r/cimg/node
+      Pick a specific cimg/node image version tag:
+      https://hub.docker.com/r/cimg/node
     type: string
   app-dir:
-    default: ''
+    default: ""
     description: |
       Path to the directory containing your package.json file. Not needed if
       package.json lives in the root.
@@ -27,11 +28,12 @@ parameters:
     type: enum
   command:
     default: build
-    description: The name of the script within your package.json which will run your tests.
+    description: |
+      The name of the script within your package.json which will run your tests.
     type: string
 
-steps: 
- - when:
+steps:
+  - when:
       condition:
         equal:
           - yarn
@@ -40,26 +42,26 @@ steps:
         - attach_workspace:
             at: .
         - run:
-           command: yarn run <<parameters.command>>
-           name: Run YARN build
-           working_directory: <<parameters.app-dir>>
+            command: yarn run <<parameters.command>>
+            name: Run YARN build
+            working_directory: <<parameters.app-dir>>
         - persist_to_workspace:
-           root: .
-           paths:
-            - .   
- - when:
+            root: .
+            paths:
+              - .
+  - when:
       condition:
         equal:
           - npm
           - << parameters.pkg-manager >>
       steps:
         - attach_workspace:
-           at: .
+            at: .
         - run:
-           command: npm run << parameters.command >>
-           name: Run NPM build
-           working_directory: << parameters.app-dir >>     
+            command: npm run << parameters.command >>
+            name: Run NPM build
+            working_directory: << parameters.app-dir >>
         - persist_to_workspace:
-           root: .
-           paths:
-            - .            
+            root: .
+            paths:
+              - .
