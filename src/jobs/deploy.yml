@@ -20,7 +20,7 @@ steps:
   - aws-cli/setup
   - run:
       command: |
-        aws s3 sync <<parameters.build-dir>> <<parameters.bucket>> 
+        aws s3 sync <<parameters.build-dir>> <<parameters.bucket>>
       name: S3 Sync
   
   

@@ -7,7 +7,7 @@ executor:
 
 parameters:
   version:
-    default: "lts"
+    default: lts
     description: |
       Pick a specific cimg/node image version tag: https://hub.docker.com/r/cimg/node
     type: string
