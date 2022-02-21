@@ -1,0 +1,24 @@
+description: |
+  Deploy FE
+
+executor: aws-cli/default
+
+parameters:
+  build-dir:
+    default: 'build'
+    description: >-
+      Path to the build directory containing application bundle.
+    type: string
+  bucket:
+    description: >-
+      S3 bucket path
+    default: ''
+    type: string
+steps:
+  - attach_workspace:
+      at: .
+  - aws-cli/setup
+  - run:
+      command: |
+        aws s3 sync <<parameters.build-dir>> <<parameters.bucket>>
+      name: S3 Sync

@@ -1,0 +1,74 @@
+description: |
+  Instal Node.js packages.
+
+executor:
+  name: node
+  tag: <<parameters.version>>
+
+parameters:
+  version:
+    default: lts
+    description: |
+      Pick a specific cimg/node image version tag:
+      https://hub.docker.com/r/cimg/node
+    type: string
+  pkg-manager:
+    default: npm
+    description: Select the default node package manager to use.
+    enum:
+      - npm
+      - yarn
+    type: enum
+  yarn-version:
+    default: ''
+    description: >
+      Pick a version of Yarn to install (if no version is specified, the latest
+      stable version will be installed):
+      https://github.com/yarnpkg/yarn/releases
+    type: string
+  app-dir:
+    default: ''
+    description: >-
+      Path to the directory containing your package.json file. Not needed if
+      package.json lives in the root.
+    type: string
+  cache-version:
+    default: v1
+    description: |
+      Change the default cache version if you need to clear the cache for any
+      reason.
+    type: string
+
+steps:
+  - when:
+      condition:
+        equal:
+          - yarn
+          - <<parameters.pkg-manager>>
+      steps:
+        - checkout
+        - node/install-yarn:
+            version: <<parameters.yarn-version>>
+        - node/install-packages:
+            pkg-manager: <<parameters.pkg-manager>>
+            app-dir: <<parameters.app-dir>>
+            cache-version: <<parameters.cache-version>>
+        - persist_to_workspace:
+            root: .
+            paths:
+              - .
+  - when:
+      condition:
+        equal:
+          - npm
+          - <<parameters.pkg-manager>>
+      steps:
+        - checkout
+        - node/install-packages:
+            pkg-manager: <<parameters.pkg-manager>>
+            app-dir: <<parameters.app-dir>>
+            cache-version: <<parameters.cache-version>>
+        - persist_to_workspace:
+            root: .
+            paths:
+              - .
