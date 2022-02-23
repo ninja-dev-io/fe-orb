@@ -6,6 +6,11 @@ executor:
   tag: <<parameters.version>>
 
 parameters:
+  standalone:
+    default: false
+    description: |
+      Is this a standalone job or it will use attach_workspace command
+    type: boolean  
   version:
     default: "lts"
     description: |
@@ -35,9 +40,9 @@ parameters:
 steps:
   - when:
       condition:
-        equal:
-          - yarn
-          - << parameters.pkg-manager >>
+        and:
+          - equal: [ yarn, <<parameters.pkg-manager>> ]
+          - equal: [ false, <<parameters.standalone>> ]
       steps:
         - attach_workspace:
             at: .
@@ -51,17 +56,40 @@ steps:
               - .
   - when:
       condition:
-        equal:
-          - npm
-          - << parameters.pkg-manager >>
+        and:
+          - equal: [ yarn, <<parameters.pkg-manager>> ]
+          - equal: [ true, <<parameters.standalone>> ]
+      steps:
+        - checkout
+        - run:
+            command: yarn run <<parameters.command>>
+            name: Run YARN build
+            working_directory: <<parameters.app-dir>>
+           
+  - when:
+      condition:
+        and:
+          - equal: [ npm, <<parameters.pkg-manager>> ]
+          - equal: [ false, <<parameters.standalone>> ]
       steps:
         - attach_workspace:
             at: .
         - run:
-            command: npm run << parameters.command >>
+            command: npm run <<parameters.command>>
             name: Run NPM build
-            working_directory: << parameters.app-dir >>
+            working_directory: <<parameters.app-dir>>
         - persist_to_workspace:
             root: .
             paths:
               - .
+  - when:
+      condition:
+        and:
+          - equal: [ npm, <<parameters.pkg-manager>> ]
+          - equal: [ true, <<parameters.standalone>> ]
+      steps:
+        - checkout
+        - run:
+            command: npm run <<parameters.command>>
+            name: Run NPM build
+            working_directory: <<parameters.app-dir>>
