@@ -10,7 +10,7 @@ parameters:
     default: false
     description: |
       Is this a standalone job or it will use attach_workspace command
-    type: boolean  
+    type: boolean
   version:
     default: "lts"
     description: |
@@ -65,7 +65,7 @@ steps:
             command: yarn run <<parameters.command>>
             name: Run YARN build
             working_directory: <<parameters.app-dir>>
-           
+
   - when:
       condition:
         and:

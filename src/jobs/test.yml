@@ -10,7 +10,7 @@ parameters:
     default: false
     description: |
       Is this a standalone job or it will use attach_workspace command
-    type: boolean  
+    type: boolean
   version:
     default: lts
     description: |
@@ -58,7 +58,7 @@ steps:
         - run:
            command: yarn run <<parameters.command>>
            name: Run YARN Tests
-           working_directory: <<parameters.app-dir>>    
+           working_directory: <<parameters.app-dir>>
 
   - when:
       condition:

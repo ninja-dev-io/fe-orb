@@ -8,7 +8,7 @@ parameters:
     default: false
     description: |
       Is this a standalone job or it will use attach_workspace command
-    type: boolean  
+    type: boolean
   build-dir:
     default: 'build'
     description: >-
@@ -22,7 +22,7 @@ parameters:
 steps:
   - when:
       condition:
-        equal: 
+        equal:
           - false
           - <<parameters.standalone>>
       steps:
@@ -36,7 +36,7 @@ steps:
 
   - when:
       condition:
-        equal: 
+        equal:
           - true
           - <<parameters.standalone>>
       steps:
